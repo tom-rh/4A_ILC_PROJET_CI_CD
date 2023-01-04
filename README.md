@@ -14,3 +14,5 @@
 ## Section 2
 
 ## Statuts actions
+
+[![Execute main.py](https://github.com/tom-rh/4A_ILC_PROJET_CI_CD/actions/workflows/execute_main_py.yml/badge.svg)](https://github.com/tom-rh/4A_ILC_PROJET_CI_CD/actions/workflows/execute_main_py.yml)
