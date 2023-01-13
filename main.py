@@ -1,5 +1,7 @@
 from flask import Flask
 
+from operator import attrgetter
+
 app = Flask(__name__)
 
 class Personne:
@@ -10,33 +12,56 @@ class Personne:
         self.solde = solde
 
     def toString(self):
-        return self.nom + ' ' + self.prenom + ' ' + str(self.solde)
+        return str(self.id) + ': ' + self.nom + ' ' + self.prenom + ' ' + str(self.solde)
 
-class Transation:
-    def __init__(self, p1, p2, t, s):
+class Transaction:
+    def __init__(self, p1, p2, date, somme):
         self.p1 = p1
         self.p2 = p2
-        self.t = t
-        self.s = s
+        self.date = date
+        self.somme = somme
 
-        p1.solde -= s
-        p2.solde += s
+        p1.solde -= somme
+        p2.solde += somme
 
     def toString(self):
-        return self.p1.nom + ' ' +  self.p2.nom + ' ' +  str(self.t) + ' ' + str(self.s)
+        return self.p1.nom + ' ' +  self.p2.nom + ' ' +  self.date + ' ' + str(self.somme)
 
 personnes = [
     Personne(0, "Andres", "Baptiste", 1000000000), 
     Personne(1, "Roth", "Tom", 0),
     Personne(2, "Thomas", "Gauthier", -100)]
 
-transations = []
+transactions = []
 
 @app.route("/")
-def hello_world():
-    return {}
+def afficherPersonnes():
+    out = "<h3>Liste de Personne :</h3>\n"
+    for personne in personnes:
+        out += "<p>" + personne.toString() + "</p>\n"
+    return out
 
-@app.route("/E1/<p1>/<p2>/<t>/<s>")
-def e1(p1, p2, t, s):
-    transations.append(Transation(personnes[p1], personnes[p2], t, s))
-    return [transations[-1], personnes[p1], personnes[p2]]
+@app.route("/E1/<id1>/<id2>/<date>/<somme>")
+@app.route("/ajouterTransaction/<id1>/<id2>/<date>/<somme>")
+def transaction(id1, id2, date, somme):
+    transactions.append(Transaction(personnes[int(id1)], personnes[int(id2)], date, int(somme)))
+    sorted(transactions, key=attrgetter('date'))
+    return "<h3>Transaction :   " + transactions[-1].toString() + "</h3>\n" + afficherPersonnes()
+
+@app.route("/E2")
+@app.route("/transactions")
+def afficherTransactions():
+    out = "<h3>Liste de Transaction :</h3>\n"
+    for transaction in transactions:
+        out += "<p>" + transaction.toString() + "</p>\n"
+    return out
+
+@app.route("/E3/<id>")
+@app.route("/E4/<id>")
+@app.route("/profil/<id>")
+def afficherProfil(id):
+    out = "<h3>" + personnes[int(id)].toString() + "</h3>\n"
+    for transaction in transactions:
+        if transaction.p1 == personnes[int(id)] or transaction.p2 == personnes[int(id)]:
+            out += "<p>" + transaction.toString() + "</p>\n"
+    return out
