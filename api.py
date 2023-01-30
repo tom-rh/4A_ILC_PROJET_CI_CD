@@ -56,4 +56,4 @@ def afficherSoldePersonne(id):
     out = { "solde": personnes[int(id)].solde }
     return out
 
-@app.route("/E5")
+# @app.route("/E5")
