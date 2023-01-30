@@ -13,9 +13,6 @@ class Personne:
         self.prenom = prenom
         self.solde = solde
 
-    def toJSON(self):
-        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
-
 class Transaction:
     def __init__(self, p1, p2, date, somme):
         self.p1 = p1
@@ -26,9 +23,6 @@ class Transaction:
         p1.solde -= somme
         p2.solde += somme
 
-    def toJSON(self):
-        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
-
 personnes = [
     Personne(0, "Andres", "Baptiste", 1000000000), 
     Personne(1, "Roth", "Tom", 0),
@@ -38,29 +32,28 @@ transactions = []
 
 @app.route("/")
 def afficherPersonnes():
-    out = []
-    for personne in personnes:
-        out.append(personne.toJSON())
-    return out
+    return json.dumps(personnes, default=lambda o: o.__dict__, sort_keys=True, indent=4)
 
 @app.route("/E1/<id1>/<id2>/<date>/<somme>")
 def transaction(id1, id2, date, somme):
     transactions.append(Transaction(personnes[int(id1)], personnes[int(id2)], date, int(somme)))
-    sorted(transactions, key=attrgetter('date'))
+    transactions.sort(key=attrgetter('date'))
 
 @app.route("/E2")
 def afficherTransactions():
-    out = "<h3>Liste de Transaction :</h3>\n"
-    for transaction in transactions:
-        out += "<p>" + transaction.toString() + "</p>\n"
-    return out
+    return json.dumps(transactions, default=lambda o: o.__dict__, sort_keys=True, indent=4)
 
 @app.route("/E3/<id>")
-@app.route("/E4/<id>")
-@app.route("/profil/<id>")
-def afficherProfil(id):
-    out = "<h3>" + personnes[int(id)].toString() + "</h3>\n"
+def afficherTransactionsPersonne(id):
+    out = []
     for transaction in transactions:
         if transaction.p1 == personnes[int(id)] or transaction.p2 == personnes[int(id)]:
-            out += "<p>" + transaction.toString() + "</p>\n"
+            out.append(transaction)
+    return json.dumps(out, default=lambda o: o.__dict__, sort_keys=True, indent=4)
+
+@app.route("/E4/<id>")
+def afficherSoldePersonne(id):
+    out = { "solde": personnes[int(id)].solde }
     return out
+
+@app.route("/E5")
