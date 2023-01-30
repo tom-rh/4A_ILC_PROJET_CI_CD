@@ -2,6 +2,8 @@ from flask import Flask
 
 from operator import attrgetter
 
+import json
+
 app = Flask(__name__)
 
 class Personne:
@@ -11,8 +13,8 @@ class Personne:
         self.prenom = prenom
         self.solde = solde
 
-    def toString(self):
-        return str(self.id) + ': ' + self.nom + ' ' + self.prenom + ' ' + str(self.solde)
+    def toJSON(self):
+        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
 
 class Transaction:
     def __init__(self, p1, p2, date, somme):
@@ -24,8 +26,8 @@ class Transaction:
         p1.solde -= somme
         p2.solde += somme
 
-    def toString(self):
-        return self.p1.nom + ' ' +  self.p2.nom + ' ' +  self.date + ' ' + str(self.somme)
+    def toJSON(self):
+        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
 
 personnes = [
     Personne(0, "Andres", "Baptiste", 1000000000), 
@@ -36,20 +38,17 @@ transactions = []
 
 @app.route("/")
 def afficherPersonnes():
-    out = "<h3>Liste de Personne :</h3>\n"
+    out = []
     for personne in personnes:
-        out += "<p>" + personne.toString() + "</p>\n"
+        out.append(personne.toJSON())
     return out
 
 @app.route("/E1/<id1>/<id2>/<date>/<somme>")
-@app.route("/ajouterTransaction/<id1>/<id2>/<date>/<somme>")
 def transaction(id1, id2, date, somme):
     transactions.append(Transaction(personnes[int(id1)], personnes[int(id2)], date, int(somme)))
     sorted(transactions, key=attrgetter('date'))
-    return "<h3>Transaction :   " + transactions[-1].toString() + "</h3>\n" + afficherPersonnes()
 
 @app.route("/E2")
-@app.route("/transactions")
 def afficherTransactions():
     out = "<h3>Liste de Transaction :</h3>\n"
     for transaction in transactions:
