@@ -45,7 +45,7 @@ def afficherPersonnes():
 @app.route("/ajouterTransaction/<id1>/<id2>/<date>/<somme>")
 def transaction(id1, id2, date, somme):
     transactions.append(Transaction(personnes[int(id1)], personnes[int(id2)], date, int(somme)))
-    sorted(transactions, key=attrgetter('date'))
+    transactions.sort(key=attrgetter('date'))
     return "<h3>Transaction :   " + transactions[-1].toString() + "</h3>\n" + afficherPersonnes()
 
 @app.route("/E2")
