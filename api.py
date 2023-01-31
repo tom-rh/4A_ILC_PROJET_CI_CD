@@ -50,20 +50,33 @@ class Transaction:
             "somme": self.somme
         }
 
-# Tableaux de donnée
+# Chargement des données
 
 personnes = []
 
+with open("personnes.csv") as csv_file:
+            reader = csv.reader(csv_file)
+            for row in reader:
+                personnes.append(Personne(len(personnes), row[0], row[1], int(row[2])))
+
 transactions = []
+
+with open("transactions.csv") as csv_file:
+            reader = csv.reader(csv_file)
+            for row in reader:
+                ajouterTransaction(int(row[0]), int(row[1]), row[2], int(row[3]))
 
 # Requete HTML
 
 @app.route("/")
+@app.route("/personnes")
 def afficherPersonnes():
     out = "<h3>Liste de Personne :</h3>\n"
     for personne in personnes:
         out += "<p>" + personne.toString() + "</p>\n"
     return out
+    # Navigateur : http://localhost:5000
+    # Navigateur : http://localhost:5000/personnes
 
 @app.route("/transactions")
 def afficherTransactions():
@@ -71,6 +84,7 @@ def afficherTransactions():
     for transaction in transactions:
         out += "<p>" + transaction.toString() + "</p>\n"
     return out
+    # Navigateur : http://localhost:5000/transactions
 
 @app.route("/profil/<int:id>")
 def afficherProfil(id):
@@ -79,27 +93,32 @@ def afficherProfil(id):
         if transaction.p1 == personnes[int(id)] or transaction.p2 == personnes[int(id)]:
             out += "<p>" + transaction.toString() + "</p>\n"
     return out
+    # Navigateur : http://localhost:5000/profil/0
 
 # Requete JSON
 
+## E0 - Afficher toutes les personnes
 @app.route("/E0", methods=['GET'])
 def donnerPersonnes():
     return [personne.toJSON() for personne in personnes]
-# curl -X GET http://localhost:5000/E0
+    # curl -X GET http://localhost:5000/E0
 
+## E1 - Enregistrer une transaction
 @app.route("/E1/<int:id1>/<int:id2>/<date>/<int:somme>", methods=['GET', 'POST'])
 def ajouterTransaction(id1, id2, date, somme):
     transaction = Transaction(personnes[int(id1)], personnes[int(id2)], date, int(somme))
     transactions.append(transaction)
     transactions.sort(key=attrgetter('date'))
     return transaction.toJSON()
-# curl -X GET http://localhost:5000/E1/0/1/2023-09-01/100
+    # curl -X GET http://localhost:5000/E1/0/1/2023-09-01/100
 
+## E2 - Afficher une liste de toutes les transactions dans l’ordre chronologique
 @app.route("/E2", methods=['GET'])
 def donnerTransactions():
     return [transaction.toJSON() for transaction in transactions]
-# curl -X GET http://localhost:5000/E2
+    # curl -X GET http://localhost:5000/E2
 
+## E3 - Afficher une liste des transactions dans l’ordre chronologique liées à une personne
 @app.route("/E3/<int:id>", methods=['GET'])
 def donnerTransactionsPersonne(id):
     out = []
@@ -107,13 +126,16 @@ def donnerTransactionsPersonne(id):
         if transaction.p1 == personnes[int(id)] or transaction.p2 == personnes[int(id)]:
             out.append(transaction.toJSON())
     return out
-# curl -X GET http://localhost:5000/E3/0
+    # curl -X GET http://localhost:5000/E3/0
 
+## E4 - Afficher le solde du compte de la personne
 @app.route("/E4/<int:id>", methods=['GET'])
 def donnerSoldePersonne(id):
     return { "solde": personnes[int(id)].solde }
-# curl -X GET http://localhost:5000/E4/0
+    # curl -X GET http://localhost:5000/E4/0
 
+## E5 - Importer des données depuis un fichier csv
+## Importer des personnes
 @app.route("/E5/personnes", methods=['POST'])
 def chargerPersonnes():
     if request.files:
@@ -128,8 +150,9 @@ def chargerPersonnes():
     else:
         print("Erreur")    
     return donnerPersonnes()
-# curl -X POST -F 'personnes=@personnes.csv' http://localhost:5000/E5/personnes
+    # curl -X POST -F 'personnes=@personnes.csv' http://localhost:5000/E5/personnes
 
+## Importer des transactions
 @app.route("/E5/transactions", methods=['POST'])
 def chargerTransactions():
     if request.files:
@@ -144,4 +167,4 @@ def chargerTransactions():
     else:
         print("Erreur")      
     return donnerTransactions()
-# curl -X POST -F 'transactions=@transactions.csv' http://localhost:5000/E5/transactions
+    # curl -X POST -F 'transactions=@transactions.csv' http://localhost:5000/E5/transactions
