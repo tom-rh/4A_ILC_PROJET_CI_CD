@@ -24,7 +24,7 @@ paths:
       description: Lister l'ensemble des personnes en HTML
       responses:
         '200':
-          description: Successful operation
+          description: "Liste de personne"
   /transactions:
     get:
       tags:
@@ -59,6 +59,21 @@ paths:
       responses:
         '200':
           description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  type: "object"
+                  properties:
+                    id:
+                      type: "integer"
+                    nom:
+                      type: "string"
+                    prenom:
+                      type: "string"
+                    solde:
+                      type: "integer"
   /E1/{id1}/{id2}/{date}/{somme}:
     post:
       tags:
@@ -93,6 +108,38 @@ paths:
       responses:
         '200':
           description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                    p1:
+                      type: "object"
+                      properties:
+                          id:
+                            type: "integer"
+                          nom:
+                            type: "string"
+                          prenom:
+                            type: "string"
+                          solde:
+                            type: "integer"
+                    p2:
+                      type: "object"
+                      properties:
+                          id:
+                            type: "integer"
+                          nom:
+                            type: "string"
+                          prenom:
+                            type: "string"
+                          solde:
+                            type: "integer"
+                    date:
+                      type: "string"
+                      format: "date"
+                    somme:
+                      type: "integer"
   /E2:
     get:
       tags:
@@ -102,6 +149,40 @@ paths:
       responses:
         '200':
           description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  type: "object"
+                  properties:
+                      p1:
+                        type: "object"
+                        properties:
+                            id:
+                              type: "integer"
+                            nom:
+                              type: "string"
+                            prenom:
+                              type: "string"
+                            solde:
+                              type: "integer"
+                      p2:
+                        type: "object"
+                        properties:
+                            id:
+                              type: "integer"
+                            nom:
+                              type: "string"
+                            prenom:
+                              type: "string"
+                            solde:
+                              type: "integer"
+                      date:
+                        type: "string"
+                        format: "date"
+                      somme:
+                        type: "integer"
   /E3/{id}:
     get:
       tags:
@@ -118,6 +199,40 @@ paths:
       responses:
         '200':
           description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  type: "object"
+                  properties:
+                      p1:
+                        type: "object"
+                        properties:
+                            id:
+                              type: "integer"
+                            nom:
+                              type: "string"
+                            prenom:
+                              type: "string"
+                            solde:
+                              type: "integer"
+                      p2:
+                        type: "object"
+                        properties:
+                            id:
+                              type: "integer"
+                            nom:
+                              type: "string"
+                            prenom:
+                              type: "string"
+                            solde:
+                              type: "integer"
+                      date:
+                        type: "string"
+                        format: "date"
+                      somme:
+                        type: "integer"
   /E4/{id}:
     get:
       tags:
@@ -134,6 +249,13 @@ paths:
       responses:
         '200':
           description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  solde:
+                    type: "integer"
   /E5/personnes:
     post:
       tags:
@@ -143,12 +265,61 @@ paths:
       responses:
         '200':
           description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  type: "object"
+                  properties:
+                    id:
+                      type: "integer"
+                    nom:
+                      type: "string"
+                    prenom:
+                      type: "string"
+                    solde:
+                      type: "integer"
   /E5/transactions:
     post:
       tags:
         - transactions
       summary: Importer un fichier csv
-      description: Importer des données de transactions depuis un fichier csv. Dans le body de la requête, merci de spécifier un fichier csv.
+      description: Importer des données de transactions depuis un fichier csv. Indiquez un fichier csv dans le body de la requête.
       responses:
         '200':
           description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  type: "object"
+                  properties:
+                      p1:
+                        type: "object"
+                        properties:
+                            id:
+                              type: "integer"
+                            nom:
+                              type: "string"
+                            prenom:
+                              type: "string"
+                            solde:
+                              type: "integer"
+                      p2:
+                        type: "object"
+                        properties:
+                            id:
+                              type: "integer"
+                            nom:
+                              type: "string"
+                            prenom:
+                              type: "string"
+                            solde:
+                              type: "integer"
+                      date:
+                        type: "string"
+                        format: "date"
+                      somme:
+                        type: "integer"
