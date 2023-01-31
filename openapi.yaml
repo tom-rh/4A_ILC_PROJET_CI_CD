@@ -1,0 +1,120 @@
+openapi: 3.0.3
+info:
+  title: Projet CI-CD | Transactions
+  description: |-
+    Voici la documentation de notre API de transaction.
+  termsOfService: http://swagger.io/terms/
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: http://127.0.0.1:5000/
+tags:
+  - name: personnes
+    description: Toutes les données concernant les personnes
+  - name: transactions
+    description: Toutes les données concernant les transactions
+paths:
+  /E0:
+    get:
+      tags:
+        - personnes
+      summary: Lister les personnes
+      description: Lister l'ensemble des personnes en JSON
+      responses:
+        '200':
+          description: Successful operation
+  /E1/{id1}/{id2}/{date}/{somme}:
+    post:
+      tags:
+        - transactions
+      summary: Enregistrer une transaction
+      description: Enregistrer une nouvelle transaction
+      parameters:
+        - in: path
+          name: id1
+          schema:
+            type: integer
+          required: true
+          description: ID de la première personne
+        - in: path
+          name: id2
+          schema:
+            type: integer
+          required: true
+          description: ID de la deuxième personne
+        - in: path
+          name: date
+          schema:
+            type: string
+          required: true
+          description: Date de la transaction
+        - in: path
+          name: somme
+          schema:
+            type: integer
+          required: true
+          description: Somme de la transaction
+      responses:
+        '200':
+          description: Successful operation
+  /E2:
+    get:
+      tags:
+        - transactions
+      summary: Lister les transactions
+      description: Afficher une liste de toutes les transactions dans l’ordre chronologique
+      responses:
+        '200':
+          description: Successful operation
+  /E3/{id}:
+    get:
+      tags:
+        - transactions
+      summary: Lister les transactions liées à une personne
+      description: Afficher une liste des transactions dans l’ordre chronologique liées à une personne
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID de la personne concernée
+      responses:
+        '200':
+          description: Successful operation
+  /E4/{id}:
+    get:
+      tags:
+        - personnes
+      summary: Afficher le solde du compte
+      description: Afficher le solde du compte de la personne
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID de la personne concernée
+      responses:
+        '200':
+          description: Successful operation
+  /E5/personnes:
+    post:
+      tags:
+        - personnes
+      summary: Importer un fichier csv
+      description: Importer des données de personnes depuis un fichier csv
+      responses:
+        '200':
+          description: Successful operation
+  /E5/transactions:
+    post:
+      tags:
+        - transactions
+      summary: Importer un fichier csv
+      description: Importer des données de transactions depuis un fichier csv
+      responses:
+        '200':
+          description: Successful operation
