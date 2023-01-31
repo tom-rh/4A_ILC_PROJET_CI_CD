@@ -18,4 +18,5 @@ Chaque classe possède des attributs permettant d'identifier facilement les inst
 
 ## Statuts actions
 
-[![Execute main.py](https://github.com/tom-rh/4A_ILC_PROJET_CI_CD/actions/workflows/execute_main_py.yml/badge.svg)](https://github.com/tom-rh/4A_ILC_PROJET_CI_CD/actions/workflows/execute_main_py.yml)
+[![Create Docker image](https://github.com/tom-rh/4A_ILC_PROJET_CI_CD/actions/workflows/create_image.yml/badge.svg)](https://github.com/tom-rh/4A_ILC_PROJET_CI_CD/actions/workflows/create_image.yml)
+[![Build application](https://github.com/tom-rh/4A_ILC_PROJET_CI_CD/actions/workflows/build_application.yml/badge.svg)](https://github.com/tom-rh/4A_ILC_PROJET_CI_CD/actions/workflows/build_application.yml)
