@@ -1,6 +1,7 @@
 from flask import Flask, request
 from operator import attrgetter
 
+import sys
 import csv
 import os
 
@@ -39,10 +40,7 @@ class Transaction:
             "somme": self.somme
         }
 
-personnes = [
-    Personne(0, "Andres", "Baptiste", 1000000000), 
-    Personne(1, "Roth", "Tom", 0),
-    Personne(2, "Thomas", "Gauthier", -100)]
+personnes = []
 
 transactions = []
 
@@ -89,7 +87,7 @@ def donnerSoldePersonne(id):
 def chargerPersonnes():
     if request.files:
         file = request.files['personnes']
-        filepath = os.path.join(app.config['FILE_UPLOADS'], file.filename)
+        filepath = os.path.join(file.filename)
         file.save(filepath)
 
         with open(filepath) as csv_file:
@@ -104,7 +102,7 @@ def chargerPersonnes():
 def chargerTransactions():
     if request.files:
         file = request.files['transactions']
-        filepath = os.path.join(app.config['FILE_UPLOADS'], file.filename)
+        filepath = os.path.join(file.filename)
         file.save(filepath)
 
         with open(filepath) as csv_file:
