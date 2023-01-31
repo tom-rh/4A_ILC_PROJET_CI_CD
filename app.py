@@ -34,6 +34,8 @@ personnes = [
 
 transactions = []
 
+# Requete HTML
+
 @app.route("/")
 def afficherPersonnes():
     out = "<h3>Liste de Personne :</h3>\n"
@@ -41,14 +43,12 @@ def afficherPersonnes():
         out += "<p>" + personne.toString() + "</p>\n"
     return out
 
-@app.route("/E1/<id1>/<id2>/<date>/<somme>")
-@app.route("/ajouterTransaction/<id1>/<id2>/<date>/<somme>")
-def transaction(id1, id2, date, somme):
+@app.route("/ajouterTransaction/<int:id1>/<int:id2>/<date>/<int:somme>")
+def ajouterTransaction(id1, id2, date, somme):
     transactions.append(Transaction(personnes[int(id1)], personnes[int(id2)], date, int(somme)))
     transactions.sort(key=attrgetter('date'))
     return "<h3>Transaction :   " + transactions[-1].toString() + "</h3>\n" + afficherPersonnes()
 
-@app.route("/E2")
 @app.route("/transactions")
 def afficherTransactions():
     out = "<h3>Liste de Transaction :</h3>\n"
@@ -56,9 +56,7 @@ def afficherTransactions():
         out += "<p>" + transaction.toString() + "</p>\n"
     return out
 
-@app.route("/E3/<id>")
-@app.route("/E4/<id>")
-@app.route("/profil/<id>")
+@app.route("/profil/<int:id>")
 def afficherProfil(id):
     out = "<h3>" + personnes[int(id)].toString() + "</h3>\n"
     for transaction in transactions:

@@ -44,7 +44,7 @@ personnes = [
 
 transactions = []
 
-# Requete
+# Requete JSON
 
 @app.route("/", methods=['GET'])
 def donnerPersonnes():
