@@ -20,3 +20,4 @@ Chaque classe possède des attributs permettant d'identifier facilement les inst
 
 [![Create Docker image](https://github.com/tom-rh/4A_ILC_PROJET_CI_CD/actions/workflows/create_image.yml/badge.svg)](https://github.com/tom-rh/4A_ILC_PROJET_CI_CD/actions/workflows/create_image.yml)
 [![Build application](https://github.com/tom-rh/4A_ILC_PROJET_CI_CD/actions/workflows/build_application.yml/badge.svg)](https://github.com/tom-rh/4A_ILC_PROJET_CI_CD/actions/workflows/build_application.yml)
+[![Docker push GCR](https://github.com/tom-rh/4A_ILC_PROJET_CI_CD/actions/workflows/docker_push_GCR.yml/badge.svg)](https://github.com/tom-rh/4A_ILC_PROJET_CI_CD/actions/workflows/docker_push_GCR.yml)
