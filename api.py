@@ -2,8 +2,6 @@ from flask import Flask
 
 from operator import attrgetter
 
-import json
-
 app = Flask(__name__)
 
 class Personne:
@@ -12,6 +10,14 @@ class Personne:
         self.nom = nom
         self.prenom = prenom
         self.solde = solde
+
+    def toJSON(self):
+        return {
+            "id": self.id,
+            "nom": self.nom,
+            "prenom": self.prenom,
+            "solde": self.solde
+        }
 
 class Transaction:
     def __init__(self, p1, p2, date, somme):
@@ -23,6 +29,14 @@ class Transaction:
         p1.solde -= somme
         p2.solde += somme
 
+    def toJSON(self):
+        return {
+            "p1": self.p1.toJSON(),
+            "p2": self.p2.toJSON(),
+            "date": self.date,
+            "somme": self.somme
+        }
+
 personnes = [
     Personne(0, "Andres", "Baptiste", 1000000000), 
     Personne(1, "Roth", "Tom", 0),
@@ -30,30 +44,33 @@ personnes = [
 
 transactions = []
 
-@app.route("/")
-def afficherPersonnes():
-    return json.dumps(personnes, default=lambda o: o.__dict__, sort_keys=True, indent=4)
+# Requete
 
-@app.route("/E1/<id1>/<id2>/<date>/<somme>")
-def transaction(id1, id2, date, somme):
-    transactions.append(Transaction(personnes[int(id1)], personnes[int(id2)], date, int(somme)))
+@app.route("/", methods=['GET'])
+def donnerPersonnes():
+    return [personne.toJSON() for personne in personnes]
+
+@app.route("/E1/<int:id1>/<int:id2>/<date>/<int:somme>", methods=['GET', 'POST'])
+def ajouterTransaction(id1, id2, date, somme):
+    transaction = Transaction(personnes[int(id1)], personnes[int(id2)], date, int(somme))
+    transactions.append(transaction)
     transactions.sort(key=attrgetter('date'))
+    return transaction.toJSON()
 
-@app.route("/E2")
+@app.route("/E2", methods=['GET'])
 def afficherTransactions():
-    return json.dumps(transactions, default=lambda o: o.__dict__, sort_keys=True, indent=4)
+    return [transaction.toJSON() for transaction in transactions]
 
-@app.route("/E3/<id>")
-def afficherTransactionsPersonne(id):
+@app.route("/E3/<int:id>", methods=['GET'])
+def donnerTransactionsPersonne(id):
     out = []
     for transaction in transactions:
         if transaction.p1 == personnes[int(id)] or transaction.p2 == personnes[int(id)]:
-            out.append(transaction)
-    return json.dumps(out, default=lambda o: o.__dict__, sort_keys=True, indent=4)
-
-@app.route("/E4/<id>")
-def afficherSoldePersonne(id):
-    out = { "solde": personnes[int(id)].solde }
+            out.append(transaction.toJSON())
     return out
+
+@app.route("/E4/<int:id>", methods=['GET'])
+def donnerSoldePersonne(id):
+    return { "solde": personnes[int(id)].solde }
 
 # @app.route("/E5")
