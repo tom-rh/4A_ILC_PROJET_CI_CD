@@ -16,12 +16,46 @@ tags:
   - name: transactions
     description: Toutes les données concernant les transactions
 paths:
+  /personnes:
+    get:
+      tags:
+        - personnes
+      summary: Afficher toutes les personnes
+      description: Lister l'ensemble des personnes en HTML
+      responses:
+        '200':
+          description: Successful operation
+  /transactions:
+    get:
+      tags:
+        - transactions
+      summary: Afficher toutes les transactions
+      description: Lister l'ensemble des transactions en HTML
+      responses:
+        '200':
+          description: Successful operation
+  /profil/{id}:
+    get:
+      tags:
+        - personnes
+      summary: Afficher le profil
+      description: Afficher le profil de la personne en HTML
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID de la personne concernée
+      responses:
+        '200':
+          description: Successful operation
   /E0:
     get:
       tags:
         - personnes
       summary: Lister les personnes
-      description: Lister l'ensemble des personnes en JSON
+      description: Lister l'ensemble des personnes en HTML
       responses:
         '200':
           description: Successful operation
@@ -114,7 +148,7 @@ paths:
       tags:
         - transactions
       summary: Importer un fichier csv
-      description: Importer des données de transactions depuis un fichier csv
+      description: Importer des données de transactions depuis un fichier csv. Dans le body de la requête, merci de spécifier un fichier csv.
       responses:
         '200':
           description: Successful operation
