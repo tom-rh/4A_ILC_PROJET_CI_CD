@@ -40,7 +40,7 @@ class Transaction:
         p2.solde += somme
 
     def toString(self):
-        return self.p1.nom + ' ' +  self.p2.nom + ' ' +  self.date + ' ' + str(self.somme)
+        return self.p1.nom + ' -> ' +  self.p2.nom + ' ' +  self.date + ' ' + str(self.somme)
 
     def toJSON(self):
         return {
@@ -50,21 +50,11 @@ class Transaction:
             "somme": self.somme
         }
 
-# Chargement des données
+# Initialisier les tableaux de données
 
 personnes = []
 
-with open("personnes.csv") as csv_file:
-            reader = csv.reader(csv_file)
-            for row in reader:
-                personnes.append(Personne(len(personnes), row[0], row[1], int(row[2])))
-
 transactions = []
-
-with open("transactions.csv") as csv_file:
-            reader = csv.reader(csv_file)
-            for row in reader:
-                ajouterTransaction(int(row[0]), int(row[1]), row[2], int(row[3]))
 
 # Requete HTML
 
@@ -168,3 +158,15 @@ def chargerTransactions():
         print("Erreur")      
     return donnerTransactions()
     # curl -X POST -F 'transactions=@transactions.csv' http://localhost:5000/E5/transactions
+
+# Chargement des données
+
+with open("personnes.csv") as csv_file:
+            reader = csv.reader(csv_file)
+            for row in reader:
+                personnes.append(Personne(len(personnes), row[0], row[1], int(row[2])))
+
+with open("transactions.csv") as csv_file:
+            reader = csv.reader(csv_file)
+            for row in reader:
+                ajouterTransaction(int(row[0]), int(row[1]), row[2], int(row[3]))
