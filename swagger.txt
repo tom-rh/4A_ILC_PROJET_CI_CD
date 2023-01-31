@@ -1,0 +1,53 @@
+openapi: 3.0.3
+info:
+  title: API REST - FLASK 1.0
+  description: |-
+    Cette API a été réalisée dans le cadre du projet du module CI/CD.
+    Le projet consiste en un système de transactions entre personnes.
+  contact:
+    url: https://github.com/tom-rh/4A_ILC_PROJET_CI_CD
+  version: 1.0.11
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: https://petstore3.swagger.io/api/v3
+tags:
+  - name: transactions
+    description: Accéder à toutes les informations concernant l'historique de transactions.
+  - name: personne
+    description: Accéder à toutes les informations concernant une personne.
+paths:
+  /transactions/{p1}/{p2}:
+    post:
+      tags:
+        - transactions
+      summary: Ajouter une nouvelle transaction
+      description: Ajouter une nouvelle transaction ave une ertaine valeur entre 2 personnes
+      operationId: addTransaction
+      parameters:
+        - name: p1
+          in: query
+          description: ID de la personne donnant de l'argent
+          required: true
+          schema:
+            type: integer
+        - name: p2
+          in: query
+          description: ID de la personne reevant de l'argent
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful operation
+        '301':
+          description: ID de la personne 1 incorrecte
+        '302':
+          description: ID de la personne 2 incorrecte
+        '405':
+          description: Erreur lors de la transaction
+      security:
+        - petstore_auth:
+            - write:transactions
+            - read:transactions
