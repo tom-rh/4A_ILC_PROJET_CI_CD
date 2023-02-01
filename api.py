@@ -40,7 +40,7 @@ class Transaction:
         p1.solde -= somme
         p2.solde += somme
 
-        input = str(p1.id) + str(p2.id) + str(somme)
+        input = str(p1.id) + str(p2.id) + date + str(somme)
         sha256 = hashlib.sha256()
         sha256.update(input.encode())
         self.hash = sha256.hexdigest()
@@ -171,7 +171,7 @@ def chargerTransactions():
 def verifierIntegriteTransactions():
     out = True
     for transaction in transactions:
-        input = str(transaction.p1.id) + str(transaction.p2.id) + str(transaction.somme)
+        input = str(transaction.p1.id) + str(transaction.p2.id) + transaction.date + str(transaction.somme)
         sha256 = hashlib.sha256()
         sha256.update(input.encode())
         hash = sha256.hexdigest()
