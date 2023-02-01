@@ -4,7 +4,7 @@ info:
   description: |-
     Voici la documentation de notre API de transaction.
   termsOfService: http://swagger.io/terms/
-  version: 1.2.0
+  version: 1.2.1
 externalDocs:
   description: Find out more about Swagger
   url: http://swagger.io
