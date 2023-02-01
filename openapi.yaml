@@ -4,7 +4,7 @@ info:
   description: |-
     Voici la documentation de notre API de transaction.
   termsOfService: http://swagger.io/terms/
-  version: 1.0.0
+  version: 1.1.0
 externalDocs:
   description: Find out more about Swagger
   url: http://swagger.io
@@ -25,6 +25,11 @@ paths:
       responses:
         '200':
           description: "Liste de personne"
+          content:
+            application/html:
+              schema:
+                type: "string"
+                format: "html"
   /transactions:
     get:
       tags:
@@ -33,7 +38,12 @@ paths:
       description: Lister l'ensemble des transactions en HTML
       responses:
         '200':
-          description: Successful operation
+          description: "Liste de transaction"
+          content:
+            application/html:
+              schema:
+                type: "string"
+                format: "html"
   /profil/{id}:
     get:
       tags:
@@ -49,7 +59,12 @@ paths:
           description: ID de la personne concernée
       responses:
         '200':
-          description: Successful operation
+          description: "Personne correspondante à l'ID"
+          content:
+            application/html:
+              schema:
+                type: "string"
+                format: "html"
   /E0:
     get:
       tags:
@@ -140,6 +155,8 @@ paths:
                       format: "date"
                     somme:
                       type: "integer"
+                    hash:
+                      type: "string"
   /E2:
     get:
       tags:
@@ -183,6 +200,8 @@ paths:
                         format: "date"
                       somme:
                         type: "integer"
+                      hash:
+                        type: "string"
   /E3/{id}:
     get:
       tags:
@@ -233,6 +252,8 @@ paths:
                         format: "date"
                       somme:
                         type: "integer"
+                      hash:
+                        type: "string"
   /E4/{id}:
     get:
       tags:
@@ -262,6 +283,16 @@ paths:
         - personnes
       summary: Importer un fichier csv
       description: Importer des données de personnes depuis un fichier csv
+      parameters:
+        - name: "personnes"
+          description: "Fichier csv à importer"
+          in: "query"
+          required: true
+          content:
+            text/csv:
+              schema:
+                type: "string"
+                format: "csv"
       responses:
         '200':
           description: Successful operation
@@ -286,6 +317,16 @@ paths:
         - transactions
       summary: Importer un fichier csv
       description: Importer des données de transactions depuis un fichier csv. Indiquez un fichier csv dans le body de la requête.
+      parameters:
+        - name: "transactions"
+          description: "Fichier csv à importer"
+          in: "query"
+          required: true
+          content:
+            text/csv:
+              schema:
+                type: "string"
+                format: "csv"
       responses:
         '200':
           description: Successful operation
@@ -323,3 +364,5 @@ paths:
                         format: "date"
                       somme:
                         type: "integer"
+                      hash:
+                        type: "string"
