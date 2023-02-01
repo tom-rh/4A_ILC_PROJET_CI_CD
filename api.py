@@ -4,6 +4,7 @@ from operator import attrgetter
 import sys
 import csv
 import os
+import hashlib
 
 app = Flask(__name__)
 
@@ -39,15 +40,21 @@ class Transaction:
         p1.solde -= somme
         p2.solde += somme
 
+        input = str(p1.id) + str(p2.id) + str(somme)
+        sha256 = hashlib.sha256()
+        sha256.update(input.encode())
+        self.hash = sha256.hexdigest()
+
     def toString(self):
-        return self.p1.nom + ' -> ' +  self.p2.nom + ' ' +  self.date + ' ' + str(self.somme)
+        return self.p1.nom + ' -> ' +  self.p2.nom + ' ' +  self.date + ' ' + str(self.somme) + ' ' + self.hash
 
     def toJSON(self):
         return {
             "p1": self.p1.toJSON(),
             "p2": self.p2.toJSON(),
             "date": self.date,
-            "somme": self.somme
+            "somme": self.somme,
+            "hash": self.hash
         }
 
 # Initialisier les tableaux de données
