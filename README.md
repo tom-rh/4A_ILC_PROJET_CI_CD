@@ -49,6 +49,11 @@ curl -X POST -F 'personnes=@{file.csv}' http://localhost:5000/E5/personnes
 curl -X POST -F 'transactions=@{file.csv}' http://localhost:5000/E5/transactions
 ```
 
+E6 - Vérifier l’intégrité des transactions : 
+```
+curl -X GET http://localhost:5000/E6
+```
+
 ## Choix de l'algorithme de Hachage
 
 Nous avons choisi le hachage `SHA-256` car il est l'un des algorithmes de hachage les plus répandus et très performants, en plus d'être considéré comme sécurisé encore aujourd'hui.
