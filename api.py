@@ -179,6 +179,7 @@ def verifierIntegriteTransactions():
     return {
         "integrite": out
     }
+    # curl -X GET http://localhost:5000/E6
 
 # Chargement des données
 
