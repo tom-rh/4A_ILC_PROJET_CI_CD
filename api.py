@@ -166,6 +166,20 @@ def chargerTransactions():
     return donnerTransactions()
     # curl -X POST -F 'transactions=@transactions.csv' http://localhost:5000/E5/transactions
 
+## E6 - Vérifier l’intégrité des transactions
+@app.route("/E6", methods=['GET'])
+def verifierIntegriteTransactions():
+    out = True
+    for transaction in transactions:
+        input = str(transaction.p1.id) + str(transaction.p2.id) + str(transaction.somme)
+        sha256 = hashlib.sha256()
+        sha256.update(input.encode())
+        hash = sha256.hexdigest()
+        out = (hash == transaction.hash)
+    return {
+        "integrite": out
+    }
+
 # Chargement des données
 
 with open("personnes.csv") as csv_file:
