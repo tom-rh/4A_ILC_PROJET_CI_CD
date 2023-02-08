@@ -23,3 +23,8 @@ jobs:
       # Install Flask
       - name: Install flask
         run: pip install flask
+        
+      # Vérification syntaxe
+      - name: API Check syntax 
+        run: |
+          python api.py check_syntax
