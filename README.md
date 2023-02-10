@@ -1,7 +1,7 @@
 # 4A_ILC_PROJET_CI_CD
 [![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
 
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
+[![](https://img.shields.io/badge/PROJET_TERMINÉ_🚀-059142?style=for-the-badge&logoColor=white)](https://dev.to/envoy_/150-badges-for-github-pnk)
 
 *Auteurs :* [Baptiste Andres](https://github.com/LeBourguignon) et [Tom Roth](https://github.com/tom-rh)
 
