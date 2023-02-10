@@ -12,6 +12,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:   
       - uses: actions/checkout@v3
+
+      # Install Python
+      - uses: actions/setup-python@v4
+      
+      # Install Flask
+      - name: Install flask
+        run: pip install flask
+
+      # Docker
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
