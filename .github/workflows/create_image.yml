@@ -16,5 +16,12 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
+      # Install Python
+      - uses: actions/setup-python@v4
+      
+      # Install Flask
+      - name: Install flask
+        run: pip install flask
+
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag flask_server
